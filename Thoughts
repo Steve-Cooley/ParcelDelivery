@@ -1,0 +1,10 @@
+Parcel Priorities:  Parcels that have a delivery time requirement can have higher priority.  They would
+complete before other files.  OR, they could be weighted higher so that if there is a low priority parcel between
+two high priority files, then a stop could be arranged there.
+
+Round trip:
+Maybe for the first half of a trip, the truck would try to move further from the hub, and during the second half of
+the trip, it could move closer to the hub.
+
+Weighting: maybe instead of simply going for the next closest node, it could make a more complex decision
+that takes into account whether the move would take the truck closer or further from the hub.

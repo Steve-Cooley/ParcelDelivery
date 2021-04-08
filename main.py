@@ -1,4 +1,5 @@
 # This project by:  Steven Cooley   __id# 001009672
+import Truck
 from Parcel import Parcel
 from Hashmap import Hashmap
 from data import load_parcels
@@ -76,6 +77,7 @@ def test():
     print(distance)
     distance = get_distance_between_addresses('3060 Lester St', '2010 W 500 S')
     print(distance)
+
 
 def main():
     test()

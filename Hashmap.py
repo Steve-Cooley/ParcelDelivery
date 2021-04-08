@@ -2,11 +2,13 @@ from Parcel import Parcel
 
 class Hashmap:
 
-    # This constructor determines how large the empty hash table will be.  I want to minimize collisions for
+    # This constructor determines how large the empty hash table will be.  I want to reduce collisions for
     # performance reasons, so I multiply the table size by 10.  This will grow with the business as long as
     # the user of this program enters in the number of packages to be delivered.
     def __init__(self, number_of_packages: int = 10):
         self.inventory = []
+        # This list of keys is part of an attempt to make iterating through the hashmap easier
+        self.key_list = []
         self.inventory_capacity = number_of_packages * 10
 
         for i in range(self.inventory_capacity):
