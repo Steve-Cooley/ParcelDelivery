@@ -52,7 +52,6 @@ def test():
     print(hashy)
 
     print('************ now testing loader ***************')
-    #hashy = load_parcels(hashy)
     load_parcels(hashy)
     print(hashy)
 
@@ -84,8 +83,8 @@ def test():
     #print(ready_parcels)
     tr = Truck.Truck(1)
     print(tr)
-    tr.load_truck(hashy)
-    tr.run_route()
+    #tr.load_truck(hashy)
+    tr.run_route(hashy)
     #hashy.print_all_parcels()
 
 

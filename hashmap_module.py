@@ -44,9 +44,16 @@ class MyHashmapClass:
 
     ## remove method  fixme delete?
 
+    # this method should mark parcels ready or not ready depending on a number of criteria based on criteria
+    # What parcels share addresses?
+    # what parcels are chained together in some other way
+    # what parcels that share an address or are otherwise chained  together that have a high priority?
+    def optimize_parcels(self):
+        pass
 
-    # get list of available loaded_parcels
+    # get list of available loaded_parcels.
     def get_ready_parcels(self):
+        self.optimize_parcels()
         ready_parcels = []
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity

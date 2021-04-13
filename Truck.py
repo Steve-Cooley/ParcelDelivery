@@ -21,13 +21,15 @@ class Truck:
     # O(n)
     def load_truck(self, hm: MyHashmapClass):
         #current_index = 0
-        print("loading trucks")
+        print("loading truck {}".format(self.truck_number))
         ready_parcels = hm.get_ready_parcels()
-        print("number of ready loaded_parcels: {}".format(len(ready_parcels)))
+        number_of_ready_parcels = len(ready_parcels)
+        print("number of ready parcels: {}".format(number_of_ready_parcels))
         for i in range(self.open_slots):
             self.loaded_parcels.append(ready_parcels[i])
             self.open_slots = self.open_slots - 1
-        print("List of loaded loaded_parcels: {}".format(self.loaded_parcels))
+        num_loaded_parcels = len(self.loaded_parcels)
+        print("Number of loaded parcels: {}".format(num_loaded_parcels))
         # change each loaded parcel's status
         for par in self.loaded_parcels:
             par.set_status_on_truck(self.truck_number)
@@ -35,7 +37,7 @@ class Truck:
         for par in ready_parcels:
             print(par)
         # Check that everyhing changed in hashmap:
-        hm.print_all_parcels()
+        #hm.print_all_parcels()
         print("Number of open slots after loading truck: {}".format(self.open_slots))
 
     # This should deliver all loaded_parcels loaded in truck  whose delivery address
@@ -51,8 +53,9 @@ class Truck:
         self.loaded_parcels.remove(par)
 
     # # first draft.  Will need to implement a lot more logic here.
-    def run_route(self):
+    def run_route(self, hashy: MyHashmapClass):
         print('running route')
+        self.load_truck(hashy)
         # Need to make a copy of a list before iterating over and removing elements of that list.
         temp_list = self.loaded_parcels[:]
         for par in temp_list:
@@ -67,6 +70,9 @@ class Truck:
         # return to HUB
         self.return_to_hub()
         print("Miles traveled for this trip: {}".format(self.miles_traveled))
+        print("Time this trip ended: {}".format(self.time.strftime('%H:%M')))
+        self.load_truck(hashy)
+        print("Loaded parcels: {}".format(self.loaded_parcels))
 
     def go_to_next_location(self, next_address: str):
         print("Going from \"{}\" to: \"{}\"".format(self.current_location, next_address))
