@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+
 
 # This is my Parcel (package) class.  I wanted to avoid the word "package" because it has another meaning in
 # Python.
@@ -10,13 +11,19 @@ class Parcel:
         self.__weight = weight
         self.__d_zip = d_zip
         self.__d_city = d_city
-        #self.__d_deadline = datetime.strptime(__d_deadline, '%m %d %Y %H %M %S') #convert input string to datetime
-        self.__d_deadline = datetime.strptime(d_deadline, '%H %M') #convert input string to datetime
+        # self.__d_deadline = datetime.strptime(__d_deadline, '%m %d %Y %H %M %S') #convert input string to datetime
+        self.__d_deadline = datetime.strptime(d_deadline, '%H %M')  # convert input string to datetime
         self.__d_address = d_address
         self.__id = id
         self.__note = ''
-        self.__required_truck = -1 # If negative number, any truck will do. Not sure if this will be used.
-        self.__siblings = []       # This might be useful if parcel should go on a certain truck. May not be used.
+        # Specifies truck. Negative number means any truck.
+        self.__required_truck = -1
+        # List of siblings (packages go together). May help loading trucks.
+        self.__siblings = []
+        # (0-3), may not be used, but is intended to help with loading and ensuring timely delivery. 0 is highest.
+        self.__delivery_priority = 3
+        # (0-1) may help with chained loaded_parcels.  0 lowest priority. 0-1
+        self.__load_priority = 1  # (0-1) may help with chained loaded_parcels.  0 lowest priority. 0-1
 
     # This override function returns a string containing all components in the object.  My intention is so use this for
     # requirement F.  Early days though, not sure if this will work.
@@ -30,16 +37,20 @@ class Parcel:
                   self.__status + '|'
         return rstring
 
-    def setStatusEnRoute(self):
-        self.__status = 'en route'
+    def set_status_on_truck(self, truck_number: int):
+        self.__status = 'truck{}'.format(truck_number)
 
-    def setStatusDelivered(self):
-        self.__status = 'delivered'
+    def set_status_delivered(self, ts: datetime):
+        self.__status = 'delivered at {}'.format(ts.strftime('%H:%M'))
+        # needs timestamp todo
 
     def setStatusNotReady(self):
         self.__status = 'not ready'
 
-    def setNote(self, note: str):
+    def get_status(self):
+        return self.__status
+
+    def set_note(self, note: str):
         self.__note = note
 
     def set_siblings(self, siblings):
@@ -51,4 +62,5 @@ class Parcel:
     def get_id(self):
         return self.__id
 
-
+    def get_d_address(self):
+        return self.__d_address

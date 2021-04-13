@@ -1,10 +1,60 @@
 Parcel Priorities:  Parcels that have a delivery time requirement can have higher priority.  They would
 complete before other files.  OR, they could be weighted higher so that if there is a low priority parcel between
-two high priority files, then a stop could be arranged there.
+two high priority files, then a stop could be arranged there, as long as deadlines are met.
+Maybe priorities can be dynamic based on deadlines? Maybe not, that's getting complicated!
 
+##############
 Round trip:
 Maybe for the first half of a trip, the truck would try to move further from the hub, and during the second half of
 the trip, it could move closer to the hub.
 
-Weighting: maybe instead of simply going for the next closest node, it could make a more complex decision
-that takes into account whether the move would take the truck closer or further from the hub.
+
+###################
+Weighting:
+maybe instead of simply going for the next closest node, it could make a more complex decision
+that takes into account whether the move would take the truck closer or further from the hub,
+or closer or further from the next high priority delivery?
+
+
+###############
+Loading Truck:
+In order to load a truck, it needs to be able to ask the hashmap for available packages.
+
+An early version of this that attempts no optimization and doesn't even test if parcels
+are tied to each other in some way could simply ask for the next package whose status is
+"waiting".
+
+An improvement would then be to tie packages together based on if they are
+to be delivered to the same address (provided that they are all "waiting")
+
+Next would be to ensure that all chained packages are loaded together
+
+###############
+Algorithm:
+I think that I might have two algorithms, one for loading, the other for delivering.
+I'm not sure where the loader will live, maybe in it's own module? But it's job will
+be to decide which parcels go on which truck.  It will take into account parcels with
+the same delivery address, parcels that "must be delivered" together, time parcels are
+ready, and priority stuff.
+
+The other algorithm will live in the truck class, and will probably be a greedy
+algorithm with maybe some modifications to account for priority, deadlines(?),
+and try to move away from the HUB during the first half of the trip, and back
+to the hub during the second half of the trip.  (I still don't know if that
+will have any kind of advantage).
+
+Addresses that have both high and low priority packages should not be "ready for
+loading" until at least one high priority package with that address is "ready".
+That might help reduce unnecessary trips.
+
+#################
+Musings (may be irrelevant)
+Geometry of the "Map"
+The materials come with an actual map of SLC, with addresses marked for delivery locations.
+However, the distance data isn't given in the form of of plotted points (ie you
+can't tell if one point is north of another point), rather distances
+between nodes.  Is there only one way for these nodes to be arranged (ignoring rotation)?
+What does this mean for optimization, if anything?
+
+
+##########

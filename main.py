@@ -1,7 +1,7 @@
 # This project by:  Steven Cooley   __id# 001009672
 import Truck
 from Parcel import Parcel
-from Hashmap import Hashmap
+from hashmap_module import MyHashmapClass
 from data import load_parcels
 from data import get_address_index
 from datetime import datetime
@@ -30,7 +30,7 @@ def test():
                    )
     print(pack00)
     print('pack hash: ' + str(hash(pack00)))
-    pack00.setStatusEnRoute()
+    pack00.set_status_on_truck(1)
     print('status has been set to en route')
     print(pack00)
     print('pack hash: ' + str(hash(pack00)))
@@ -40,7 +40,7 @@ def test():
 
     print('***********')
     print('Now testing hashmap')
-    hashy = Hashmap(40)
+    hashy = MyHashmapClass(40)
     # print(hashy)
     # hashy.insert(pack00)
     # print(hashy)
@@ -77,6 +77,17 @@ def test():
     print(distance)
     distance = get_distance_between_addresses('3060 Lester St', '2010 W 500 S')
     print(distance)
+    #
+    print('********** Testing truck!')
+    #hashy.next_available(0)
+    #ready_parcels = hashy.get_ready_parcels()
+    #print(ready_parcels)
+    tr = Truck.Truck(1)
+    print(tr)
+    tr.load_truck(hashy)
+    tr.run_route()
+    #hashy.print_all_parcels()
+
 
 
 def main():
@@ -84,12 +95,6 @@ def main():
 
 
 main()
-
-
-
-
-
-
 
 
 

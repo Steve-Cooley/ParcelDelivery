@@ -1,5 +1,5 @@
 from Parcel import Parcel
-from Hashmap import Hashmap
+from hashmap_module import MyHashmapClass
 
 
 def load_parcels(hashmap):
@@ -522,26 +522,26 @@ distances = [
     ]
 ]
 
-
+# O(n)
 def get_address_index(address: str):
     """Takes an address string and returns the index value of that string.
     Will be an internal helper function, no need to import to other modules
     at least once testing if finished.  fixme delete excess comment"""
-    print("in get_address_index: {}".format(address))
+    #print("in get_address_index: {}".format(address))
     for i in range(len(distances)):
         #print(distances[i][0])
         if distances[i][0] == address:
-            print("index is: {}".format(i))
+            #print("index is: {}".format(i))
             return i
 
-
+# O(1)
 def get_distance_between_addresses(current_location: str, next_location: str):
     # Takes two address strings and returns the distance between those addresses
-    print('\n**** Starting get distance function')
-    print("address 1: {}  address 2: {}".format(current_location, next_location))
+    #print('\n**** Starting get distance function')
+    #print("address 1: {}  address 2: {}".format(current_location, next_location))
     row = get_address_index(current_location)
     col = get_address_index(next_location)
-    print("indexes are: {} and {}".format(row, col))
+    #print("indexes are: {} and {}".format(row, col))
     # Because of the way the distance data spreadsheet (and my own 2d array)
     # are filled out, it is necessary for the first index to be >= the second index.
     # This 'if' statement fixes that.
@@ -550,8 +550,8 @@ def get_distance_between_addresses(current_location: str, next_location: str):
         temp = row
         row = col
         col = temp
-    print("indexes are: {} and {}".format(row, col))
-    print('***** finishing get distance function\n')
+    #print("indexes are: {} and {}".format(row, col))
+    #print('***** finishing get distance function\n')
     # Need to offset column number by one to skip address string. Adding 1 to column fixes this
     return distances[row][col + 1]
 
