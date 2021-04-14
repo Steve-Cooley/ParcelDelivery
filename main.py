@@ -1,5 +1,6 @@
 # This project by:  Steven Cooley   __id# 001009672
 import Truck
+import data
 from Parcel import Parcel
 from hashmap_module import MyHashmapClass
 from data import load_parcels
@@ -15,41 +16,34 @@ class TemporaryClass:
 
 
 def test():
-    tc = TemporaryClass()
-
-    print("testing")
-
-    print(tc)
-
-    pack00 = Parcel('1',
-                   '123 address',
-                   "22 00",
-                   "city1",
-                   'zip1',
-                   '1.3#',
-                   )
-    print(pack00)
-    print('pack hash: ' + str(hash(pack00)))
-    pack00.set_status_on_truck(1)
-    print('status has been set to en route')
-    print(pack00)
-    print('pack hash: ' + str(hash(pack00)))
-    print('Hash of string matching package number: ' + str(hash('1')))
-    pack00.id = '2'
-    print('Hash of package after changing the parcel number: ' + str(hash(pack00)))
-
-    print('***********')
-    print('Now testing hashmap')
+    # tc = TemporaryClass()
+    #
+    # print("testing")
+    #
+    # print(tc)
+    #
+    # pack00 = Parcel('1',
+    #                '123 address',
+    #                "22 00",
+    #                "city1",
+    #                'zip1',
+    #                '1.3#',
+    #                )
+    # print(pack00)
+    # print('pack hash: ' + str(hash(pack00)))
+    # pack00.set_status_on_truck(1)
+    # print('status has been set to en route')
+    # print(pack00)
+    # print('pack hash: ' + str(hash(pack00)))
+    # print('Hash of string matching package number: ' + str(hash('1')))
+    # pack00.id = '2'
+    # print('Hash of package after changing the parcel number: ' + str(hash(pack00)))
+    #
+    # print('***********')
+    # print('Now testing hashmap')
     hashy = MyHashmapClass(40)
-    # print(hashy)
-    # hashy.insert(pack00)
-    # print(hashy)
-    # pack01 = Parcel('2', 'address2', '00 00', 'city2', 'zip2', 'weight2')
-    # pack02 = Parcel('3', 'address3', '00 00', 'city3', 'zip3', 'weight3')
-    # hashy.insert(pack01)
-    # hashy.insert(pack02)
 
-    print(hashy)
+    #print(hashy)
 
     print('************ now testing loader ***************')
     load_parcels(hashy)
@@ -88,9 +82,22 @@ def test():
     #hashy.print_all_parcels()
 
 
+def test_trucks():
+    # set up hashmap
+    hashy = MyHashmapClass(40)
+    load_parcels(hashy)
+    # set up truck 1
+    tr1 = Truck.Truck(1)
+    tr1.run_route(hashy)
+    # set up truck 2
+    tr2 = Truck.Truck(2)
+    tr2.run_route(hashy)
+
+
 
 def main():
-    test()
+    test_trucks()
+    #test()
 
 
 main()

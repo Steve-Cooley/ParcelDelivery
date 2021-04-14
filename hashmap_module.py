@@ -7,10 +7,10 @@ class MyHashmapClass:
     # the user of this program enters in the number of packages to be delivered.
     def __init__(self, number_of_packages: int = 10):
         self.inventory = []
-        # This list of keys is part of an attempt to make iterating through the hashmap easier
+        # This list of keys (IDs) is part of an attempt to make iterating through the hashmap easier
         self.key_list = []
         self.inventory_capacity = number_of_packages * 10
-
+        # This makes the algorithm self adjusting, responding to the number of packages inserted
         for i in range(self.inventory_capacity):
             self.inventory.append([])
 
@@ -48,12 +48,13 @@ class MyHashmapClass:
     # What parcels share addresses?
     # what parcels are chained together in some other way
     # what parcels that share an address or are otherwise chained  together that have a high priority?
+
     def optimize_parcels(self):
         pass
 
     # get list of available loaded_parcels.
     def get_ready_parcels(self):
-        self.optimize_parcels()
+        #self.optimize_parcels()
         ready_parcels = []
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity
@@ -62,8 +63,9 @@ class MyHashmapClass:
             for par in self.inventory[bucket]:
                 #print(par)
                 #print (par.get_status())
-                if par.get_status() == 'waiting':
+                if (par.get_status() == 'waiting') and par.get_id() == key :
                     ready_parcels.append(par)
+                    #print(par)
         return ready_parcels
 
     def print_all_parcels(self):

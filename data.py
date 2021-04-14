@@ -485,7 +485,7 @@ distances = [
         7.9, 4.5, 0.0
     ],
     [
-        '5383 S 900 East #104',
+        '5383 South 900 East #104',
         2.4, 10, 6.1,
         6.4, 4.2, 5.9,
         11.7, 9.5, 9.5,
@@ -531,7 +531,7 @@ def get_address_index(address: str):
     for i in range(len(distances)):
         #print(distances[i][0])
         if distances[i][0] == address:
-            #print("index is: {}".format(i))
+            print("index is: {}".format(i))
             return i
 
 # O(1)
@@ -546,7 +546,7 @@ def get_distance_between_addresses(current_location: str, next_location: str):
     # are filled out, it is necessary for the first index to be >= the second index.
     # This 'if' statement fixes that.
     if row < col:
-        print("The current index has a value lower than the next index, reversing.")
+        #print("The current index has a value lower than the next index, reversing.")
         temp = row
         row = col
         col = temp
