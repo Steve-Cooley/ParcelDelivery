@@ -2,7 +2,7 @@
 import Truck
 import data
 from Parcel import Parcel
-from hashmap_module import MyHashmapClass
+from hash_module import MyHashmapClass
 from data import load_parcels
 from data import get_address_index
 from datetime import datetime
@@ -86,13 +86,21 @@ def test_trucks():
     # set up hashmap
     hashy = MyHashmapClass(40)
     load_parcels(hashy)
-    # set up truck 1
-    tr1 = Truck.Truck(1)
-    tr1.run_route(hashy)
-    # set up truck 2
-    tr2 = Truck.Truck(2)
-    tr2.run_route(hashy)
+    # # set up truck 1
+    # tr1 = Truck.Truck(1)
+    # tr1.run_route(hashy)
+    # # set up truck 2
+    # tr2 = Truck.Truck(2)
+    # tr2.run_route(hashy)
+    # tr1.run_route(hashy)
+    # tr2.run_route(hashy)
 
+    # set up trucks:
+    tr1 = Truck.Truck(1)
+    tr2 = Truck.Truck(2)
+    while len(hashy.get_ready_parcels()) > 0:
+        tr1.run_route(hashy)
+        tr2.run_route(hashy)
 
 
 def main():

@@ -1,5 +1,5 @@
 from Parcel import Parcel
-from hashmap_module import MyHashmapClass
+from hash_module import MyHashmapClass
 
 
 def load_parcels(hashmap):

@@ -59,6 +59,9 @@ class Parcel:
     def set_required_truck(self, truck: int):
         self.__required_truck = truck
 
+    def get_required_truck(self):
+        return self.__required_truck
+
     def get_id(self):
         return self.__id
 

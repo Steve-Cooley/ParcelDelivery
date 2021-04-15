@@ -10,6 +10,7 @@ class MyHashmapClass:
         # This list of keys (IDs) is part of an attempt to make iterating through the hashmap easier
         self.key_list = []
         self.inventory_capacity = number_of_packages * 10
+        self.truck_turn = 1  # selects which truck is active.  Not sure if this will be used fixme
         # This makes the algorithm self adjusting, responding to the number of packages inserted
         for i in range(self.inventory_capacity):
             self.inventory.append([])
@@ -49,12 +50,13 @@ class MyHashmapClass:
     # what parcels are chained together in some other way
     # what parcels that share an address or are otherwise chained  together that have a high priority?
 
+    # does nothing so far
     def optimize_parcels(self):
         pass
 
     # get list of available loaded_parcels.
     def get_ready_parcels(self):
-        #self.optimize_parcels()
+        self.optimize_parcels()  #does nothing, either remove or do something with it todo
         ready_parcels = []
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity
@@ -74,4 +76,11 @@ class MyHashmapClass:
             bucket = hash(key) % self.inventory_capacity
             for par in self.inventory[bucket]:
                 print(par)
+
+    # def run_trucks(self):
+    #     tr1 = Truck.Truck(1)
+    #     tr2 = Truck.Truck(2)
+    #     if self.truck_turn == 1:
+    #         pass
+
 

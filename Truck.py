@@ -1,11 +1,11 @@
 import Parcel
 import data
-from hashmap_module import MyHashmapClass
+from hash_module import MyHashmapClass
 from datetime import datetime, timedelta
 
 # class "delivers" loaded_parcels.  It can hold only 16 loaded_parcels at a time.
 # must keep track of miles traveled
-import hashmap_module
+import hash_module
 class Truck:
     # O(1)
     def __init__(self, truck_number):
@@ -28,9 +28,14 @@ class Truck:
         # if statement prevents out of bounds errors when there are more open slots than ready parcels
         if number_of_ready_parcels < self.open_slots:
             self.open_slots = number_of_ready_parcels
+        # for each open slot fill it with available parcels
         for i in range(self.open_slots):
-            self.loaded_parcels.append(ready_parcels[i])
-            self.open_slots = self.open_slots - 1
+            par = ready_parcels[i]
+            tr_num = par.get_required_truck()
+            #print("tr_num = ", tr_num)
+            if (tr_num == self.truck_number) or (tr_num == -1):
+                self.loaded_parcels.append(par)
+                self.open_slots = self.open_slots - 1
         num_loaded_parcels = len(self.loaded_parcels)
         print("Number of loaded parcels: {}".format(num_loaded_parcels))
         # change each loaded parcel's status
@@ -59,6 +64,11 @@ class Truck:
     # # first draft.  Will need to implement a lot more logic here.
     def run_route(self, hashy: MyHashmapClass):
         print("************ Start of run_route***********")
+        # Inspired by Peterson's algorithm: attempt to alternate trucks
+        # if self.truck_number == 1:
+        #     hashy.set_truck_turn(2)
+        # else:
+        #     hashy.set_truck_turn(1)
         # First, determine if route should run (are there any ready parcels in the hashmap?)
         #hashy.print_all_parcels()
         num_ready_parcels = len(hashy.get_ready_parcels())
@@ -85,8 +95,8 @@ class Truck:
         num_ready_parcels = len(hashy.get_ready_parcels())
         print("There are {} parcels ready to go".format(num_ready_parcels))
         print("************* end of run_route************")
-        if num_ready_parcels > 0:
-            self.run_route(hashy)
+        # if num_ready_parcels > 4:
+        #     self.run_route(hashy)
 
 
     def go_to_next_location(self, next_address: str):
