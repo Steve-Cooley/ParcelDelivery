@@ -11,6 +11,7 @@ def load_parcels(hashmap):
                     'Salt Lake City',
                     '84115',
                     '21')
+    pack01.set_priority(1)
     pack02 = Parcel('02',
                     '2530 S 500 E',
                     '22 00',
@@ -43,6 +44,7 @@ def load_parcels(hashmap):
                     '84119',
                     '88',
                     'delayed')
+    pack06.set_priority(0)
     pack07 = Parcel('07',
                     '1330 2100 S',
                     '22 00',
@@ -87,24 +89,31 @@ def load_parcels(hashmap):
                     'Salt Lake City',
                     '84104',
                     '2')
+    pack13.set_required_truck(1)
     pack14 = Parcel('14',
                     '4300 S 1300 E',
                     '10 30',
                     'Millcreek',
                     '84117',
                     '88')
+    pack14.set_required_truck(1)
+    pack14.set_priority(1)
     pack15 = Parcel('15',
                     '4580 S 2300 E',
                     '09 00',
                     'Holladay',
                     '84117',
                     '4')
+    pack15.set_required_truck(1)
+    pack15.set_priority(1)
     pack16 = Parcel('16',
                     '4580 S 2300 E',
                     '10 30',
                     '4580 S 2300 E',
                     '84117',
                     '88')
+    pack16.set_required_truck(1)
+    pack16.set_priority(1)
     pack17 = Parcel('17',
                     '3148 S 1100 W',
                     '22 00',
@@ -124,12 +133,15 @@ def load_parcels(hashmap):
                     'Salt Lake City',
                     '84115',
                     '37')
+    pack19.set_required_truck(1)
     pack20 = Parcel('20',
                     '3595 Main St',
                     '10 30',
                     'Salt Lake City',
                     '84115',
                     '37')
+    pack20.set_required_truck(1)
+    pack20.set_priority(1)
     pack21 = Parcel('21',
                     '3595 Main St',
                     '22 00',
@@ -161,6 +173,7 @@ def load_parcels(hashmap):
                     '84117',
                     '7',
                     'delayed until 0905')
+    pack25.set_priority(0)
     pack26 = Parcel('26',
                     '5383 South 900 East #104',
                     '22 00',
@@ -186,18 +199,21 @@ def load_parcels(hashmap):
                     'Salt Lake City',
                     '84106',
                     '2')
+    pack29.set_priority(1)
     pack30 = Parcel('30',
                     '300 State St',
                     '10 30',
                     'Salt Lake City',
                     '84103',
                     '1')
+    pack30.set_priority(1)
     pack31 = Parcel('31',
                     '3365 S 900 W',
                     '10 30',
                     'Salt Lake City',
                     '84119',
                     '1')
+    pack31.set_priority(1)
     pack32 = Parcel('32',
                     '3365 S 900 W',
                     '22 00',
@@ -217,6 +233,7 @@ def load_parcels(hashmap):
                     'Holladay',
                     'zip2',
                     '2')
+    pack34.set_priority(1)
     pack35 = Parcel('35',
                     '1060 Dalton Ave S',
                     '22 00',
@@ -236,6 +253,7 @@ def load_parcels(hashmap):
                     'Salt Lake City',
                     '84111',
                     '2')
+    pack37.set_priority(1)
     pack38 = Parcel('38',
                     '410 S State St',
                     '22 00',
@@ -255,6 +273,7 @@ def load_parcels(hashmap):
                     'Salt Lake City',
                     '84115',
                     '45')
+    pack40.set_priority(1)
     hashmap.insert(pack01)
     hashmap.insert(pack02)
     hashmap.insert(pack03)
