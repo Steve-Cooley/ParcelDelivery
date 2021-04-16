@@ -550,7 +550,7 @@ def get_address_index(address: str):
     for i in range(len(distances)):
         #print(distances[i][0])
         if distances[i][0] == address:
-            print("index is: {}".format(i))
+            #print("index is: {}".format(i))
             return i
 
 # O(1)

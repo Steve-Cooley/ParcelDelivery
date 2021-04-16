@@ -19,34 +19,56 @@ class Truck:
         self.current_location = 'HUB'
 
     # O(n)
+    # def load_truck(self, hm: MyHashmapClass):
+    #     #current_index = 0
+    #     print("loading truck {}".format(self.truck_number))
+    #     ready_parcels = hm.get_ready_parcels()
+    #     number_of_ready_parcels = len(ready_parcels)
+    #     print("number of ready parcels: {}".format(number_of_ready_parcels))
+    #     # if statement prevents out of bounds errors when there are more open slots than ready parcels
+    #     if number_of_ready_parcels < self.open_slots:
+    #         self.open_slots = number_of_ready_parcels
+    #     # for each open slot fill it with available parcels
+    #     for i in range(self.open_slots):
+    #         par = ready_parcels[i]
+    #         tr_num = par.get_required_truck()
+    #         #print("tr_num = ", tr_num)
+    #         if (tr_num == self.truck_number) or (tr_num == -1):
+    #             self.loaded_parcels.append(par)
+    #             self.open_slots = self.open_slots - 1
+    #     num_loaded_parcels = len(self.loaded_parcels)
+    #     print("Number of loaded parcels: {}".format(num_loaded_parcels))
+    #     # change each loaded parcel's status
+    #     for par in self.loaded_parcels:
+    #         par.set_status_on_truck(self.truck_number)
+    #     # check that local package statuses have changed (should also affect hashmap, should be checked)
+    #     # for par in ready_parcels:
+    #     #     print(par)
+    #     # Check that everyhing changed in hashmap:
+    #     #hm.print_all_parcels()
+    #     print("Number of open slots after loading truck: {}".format(self.open_slots))
+
     def load_truck(self, hm: MyHashmapClass):
-        #current_index = 0
-        print("loading truck {}".format(self.truck_number))
+        print("@@@@loading truck {}".format(self.truck_number))
         ready_parcels = hm.get_ready_parcels()
-        number_of_ready_parcels = len(ready_parcels)
-        print("number of ready parcels: {}".format(number_of_ready_parcels))
-        # if statement prevents out of bounds errors when there are more open slots than ready parcels
-        if number_of_ready_parcels < self.open_slots:
-            self.open_slots = number_of_ready_parcels
-        # for each open slot fill it with available parcels
+        # prune packages that don't belong on this truck
+        pruned = []
+        for par in ready_parcels:
+            if par.get_required_truck() == self.truck_number or par.get_required_truck() == -1:
+                pruned.append(par)
+        num_ready_parcels = len(pruned)
+        # prevent oob errors if there are more open slots than compatible parcels:
+        if num_ready_parcels < self.open_slots:
+            self.open_slots = num_ready_parcels
+        # actually load the packages
         for i in range(self.open_slots):
             par = ready_parcels[i]
-            tr_num = par.get_required_truck()
-            #print("tr_num = ", tr_num)
-            if (tr_num == self.truck_number) or (tr_num == -1):
-                self.loaded_parcels.append(par)
-                self.open_slots = self.open_slots - 1
-        num_loaded_parcels = len(self.loaded_parcels)
-        print("Number of loaded parcels: {}".format(num_loaded_parcels))
-        # change each loaded parcel's status
+            self.loaded_parcels.append(par)
+            self.open_slots = self.open_slots - 1
+        # change the status of each loaded parcel to reflect that they are loaded.
         for par in self.loaded_parcels:
             par.set_status_on_truck(self.truck_number)
-        # check that local package statuses have changed (should also affect hashmap, should be checked)
-        # for par in ready_parcels:
-        #     print(par)
-        # Check that everyhing changed in hashmap:
-        #hm.print_all_parcels()
-        print("Number of open slots after loading truck: {}".format(self.open_slots))
+        print("number of open slots after loading truck: ", self.open_slots)
 
     # This should deliver all loaded_parcels loaded in truck  whose delivery address
     # matches the current address.  I don't think it technically does this yet, it's
@@ -64,13 +86,7 @@ class Truck:
     # # first draft.  Will need to implement a lot more logic here.
     def run_route(self, hashy: MyHashmapClass):
         print("************ Start of run_route***********")
-        # Inspired by Peterson's algorithm: attempt to alternate trucks
-        # if self.truck_number == 1:
-        #     hashy.set_truck_turn(2)
-        # else:
-        #     hashy.set_truck_turn(1)
         # First, determine if route should run (are there any ready parcels in the hashmap?)
-        #hashy.print_all_parcels()
         num_ready_parcels = len(hashy.get_ready_parcels())
         print("There are {} parcels ready to go".format(num_ready_parcels))
         print('running route')
@@ -100,7 +116,7 @@ class Truck:
 
 
     def go_to_next_location(self, next_address: str):
-        print("Going from \"{}\" to: \"{}\"".format(self.current_location, next_address))
+        #print("Going from \"{}\" to: \"{}\"".format(self.current_location, next_address))
         # calculate distance to next location, add that to accumulator, update current_location
         distance = data.get_distance_between_addresses(self.current_location, next_address)
         print("the distance was: {} miles".format(distance))
@@ -110,7 +126,7 @@ class Truck:
         time_added = distance / self.TRUCK_SPEED
         self.time = self.time + timedelta(minutes = time_added)
         print("time added: {}".format(time_added))
-        print("current time is: ", self.time)
+        #print("current time is: ", self.time)
 
 
     def return_to_hub(self):
