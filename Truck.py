@@ -18,57 +18,47 @@ class Truck:
         self.TRUCK_SPEED = 0.3
         self.current_location = 'HUB'
 
-    # O(n)
-    # def load_truck(self, hm: MyHashmapClass):
-    #     #current_index = 0
-    #     print("loading truck {}".format(self.truck_number))
-    #     ready_parcels = hm.get_ready_parcels()
-    #     number_of_ready_parcels = len(ready_parcels)
-    #     print("number of ready parcels: {}".format(number_of_ready_parcels))
-    #     # if statement prevents out of bounds errors when there are more open slots than ready parcels
-    #     if number_of_ready_parcels < self.open_slots:
-    #         self.open_slots = number_of_ready_parcels
-    #     # for each open slot fill it with available parcels
-    #     for i in range(self.open_slots):
-    #         par = ready_parcels[i]
-    #         tr_num = par.get_required_truck()
-    #         #print("tr_num = ", tr_num)
-    #         if (tr_num == self.truck_number) or (tr_num == -1):
-    #             self.loaded_parcels.append(par)
-    #             self.open_slots = self.open_slots - 1
-    #     num_loaded_parcels = len(self.loaded_parcels)
-    #     print("Number of loaded parcels: {}".format(num_loaded_parcels))
-    #     # change each loaded parcel's status
-    #     for par in self.loaded_parcels:
-    #         par.set_status_on_truck(self.truck_number)
-    #     # check that local package statuses have changed (should also affect hashmap, should be checked)
-    #     # for par in ready_parcels:
-    #     #     print(par)
-    #     # Check that everyhing changed in hashmap:
-    #     #hm.print_all_parcels()
-    #     print("Number of open slots after loading truck: {}".format(self.open_slots))
 
-    def load_truck(self, hm: MyHashmapClass):
+    def load_truck(self, hm: Parcel):
         print("@@@@loading truck {}".format(self.truck_number))
         ready_parcels = hm.get_ready_parcels()
-        # prune packages that don't belong on this truck
-        pruned = []
+        # remove incompatible parcels
+        compat_parcels = []
         for par in ready_parcels:
             if par.get_required_truck() == self.truck_number or par.get_required_truck() == -1:
-                pruned.append(par)
-        num_ready_parcels = len(pruned)
-        # prevent oob errors if there are more open slots than compatible parcels:
+                compat_parcels.append(par)
+        ready_parcels = compat_parcels
+        #print(ready_parcels)
+        # find priority parcels
+        temp_priororitized_parcels = []
+        #   priority 0
+        for par in ready_parcels:
+            pri = par.get_priority()
+            if pri == 0:
+                temp_priororitized_parcels.append(par)
+        #   priority 1
+        for par in ready_parcels:
+            pri = par.get_priority()
+            if pri == 1:
+                temp_priororitized_parcels.append(par)
+        # remove all higher prioritized packages from main list
+        for par in temp_priororitized_parcels:
+            ready_parcels.remove(par)
+        # concatenate lists, creating new list with higher priority packages at the front
+        ready_parcels = temp_priororitized_parcels + ready_parcels
+        # prevent OOB errors:
+        num_ready_parcels = len(ready_parcels)
         if num_ready_parcels < self.open_slots:
             self.open_slots = num_ready_parcels
-        # actually load the packages
+        # Actually load the parcels onto the truck
         for i in range(self.open_slots):
             par = ready_parcels[i]
             self.loaded_parcels.append(par)
             self.open_slots = self.open_slots - 1
-        # change the status of each loaded parcel to reflect that they are loaded.
+        #   change the status of loaded parcels to reflect the truck they are on
         for par in self.loaded_parcels:
             par.set_status_on_truck(self.truck_number)
-        print("number of open slots after loading truck: ", self.open_slots)
+
 
     # This should deliver all loaded_parcels loaded in truck  whose delivery address
     # matches the current address.  I don't think it technically does this yet, it's

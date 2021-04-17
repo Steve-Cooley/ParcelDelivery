@@ -21,7 +21,7 @@ class Parcel:
         # List of siblings (packages go together). May help loading trucks.
         self.__siblings = []
         # (0-3), may not be used, but is intended to help with loading and ensuring timely delivery. 0 is highest.
-        self.__delivery_priority = 3
+        self.__delivery_priority = 2
         # (0-1) may help with chained loaded_parcels.  0 lowest priority. 0-1
         self.__load_priority = 1  # (0-1) may help with chained loaded_parcels.  0 lowest priority. 0-1
 

@@ -73,8 +73,8 @@ def test():
     #
     print('********** Testing truck!')
     #hashy.next_available(0)
-    #ready_parcels = hashy.get_ready_parcels()
-    #print(ready_parcels)
+    #parcel_list = hashy.get_ready_parcels()
+    #print(parcel_list)
     tr = Truck.Truck(1)
     print(tr)
     #tr.load_truck(hashy)
