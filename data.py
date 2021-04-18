@@ -90,6 +90,7 @@ def load_parcels(hashmap):
                     '84104',
                     '2')
     pack13.set_required_truck(1)
+    pack13.set_priority(1)
     pack14 = Parcel('14',
                     '4300 S 1300 E',
                     '10 30',
