@@ -49,7 +49,7 @@ class Parcel:
         # needs timestamp todo
 
     def set_status_late(self, ts: datetime):
-        self.__status = 'PACKAGE LATE: []'.format(ts)
+        self.__status = '@@@@@@@@@@ PACKAGE LATE: {}'.format(ts.strftime('%H:%M'))
 
     # fixme, I don't think this is ever used
     def set_status_not_ready(self):

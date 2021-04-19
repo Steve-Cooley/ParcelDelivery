@@ -86,21 +86,16 @@ def test_trucks():
     # set up hashmap
     hashy = MyHashmapClass(40)
     load_parcels(hashy)
-    # # set up truck 1
-    # tr1 = Truck.Truck(1)
-    # tr1.run_route(hashy)
-    # # set up truck 2
-    # tr2 = Truck.Truck(2)
-    # tr2.run_route(hashy)
-    # tr1.run_route(hashy)
-    # tr2.run_route(hashy)
 
     # set up trucks:
-    tr1 = Truck.Truck(1)
-    tr2 = Truck.Truck(2)
-    while len(hashy.get_ready_parcels()) > 0:
+    tr1 = Truck.Truck(1, hashy)
+    tr2 = Truck.Truck(2, hashy)
+    # for debugging purposes, I'm limiting this to 10 cycles (20 total truck runs).  This can be removed later fixme
+    i = 9
+    while len(hashy.get_ready_parcels()) > 0 and (i > 0):
         tr1.run_route(hashy)
         tr2.run_route(hashy)
+        i = i - 1
     hashy.print_all_parcels()
 
 def main():
