@@ -36,10 +36,10 @@ class MyHashmapClass:
     # Complexity: Worst case is O(n), but in reality it's more like O(1) because hash collisions should be rare.
     # So, runtime will be something like O(n / (inventory_capacity?)) fixme
     def search(self, id: str):
-        print('in hm search method') # fixme delete
+        #print('in hm search method') # fixme delete
         bucket_int = hash(id) % self.inventory_capacity
         actual_bucket = self.inventory[bucket_int]
-        print("********* Length of bucket: " + str(len(actual_bucket)))
+        #print("********* Length of bucket: " + str(len(actual_bucket)))
         for par in actual_bucket:
             return par
 
@@ -49,7 +49,6 @@ class MyHashmapClass:
     # What parcels share addresses?
     # what parcels are chained together in some other way
     # what parcels that share an address or are otherwise chained  together that have a high priority?
-
     # does nothing so far
     def optimize_parcels(self):
         pass
@@ -77,10 +76,5 @@ class MyHashmapClass:
             for par in self.inventory[bucket]:
                 print(par)
 
-    # def run_trucks(self):
-    #     tr1 = Truck.Truck(1)
-    #     tr2 = Truck.Truck(2)
-    #     if self.truck_turn == 1:
-    #         pass
 
 

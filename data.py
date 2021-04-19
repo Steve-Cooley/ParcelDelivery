@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Parcel import Parcel
 from hash_module import MyHashmapClass
 
@@ -44,6 +46,7 @@ def load_parcels(hashmap):
                     '84119',
                     '88',
                     'delayed')
+    pack06.set_ready_time(datetime.strptime('09 05', '%H %M'))
     pack06.set_priority(0)
     pack07 = Parcel('07',
                     '1330 2100 S',
@@ -65,6 +68,7 @@ def load_parcels(hashmap):
                     '84103',
                     '2',
                     'delayed until 1020')  # status set
+    pack09.set_ready_time(datetime.strptime("10 20", "%H %M"))
     pack10 = Parcel('10',
                     '600 E 900 South',
                     '22 00',

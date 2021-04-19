@@ -12,7 +12,7 @@ class Parcel:
         self.__d_zip = d_zip
         self.__d_city = d_city
         # self.__d_deadline = datetime.strptime(__d_deadline, '%m %d %Y %H %M %S') #convert input string to datetime
-        self.__d_deadline = datetime.strptime(d_deadline, '%H %M')  # convert input string to datetime
+        self.__d_deadline = datetime.strptime(d_deadline, "%H %M")  # convert input string to datetime
         self.__d_address = d_address
         self.__id = id
         self.__note = ''
@@ -24,6 +24,7 @@ class Parcel:
         self.__delivery_priority = 2
         # (0-1) may help with chained loaded_parcels.  0 lowest priority. 0-1
         self.__load_priority = 1  # (0-1) may help with chained loaded_parcels.  0 lowest priority. 0-1
+        self.__ready_time = datetime.strptime("08 00", "%H %M")
 
     # This override function returns a string containing all components in the object.  My intention is so use this for
     # requirement F.  Early days though, not sure if this will work.
@@ -37,6 +38,9 @@ class Parcel:
                   self.__status + '|'
         return rstring
 
+    def set_ready_time(self, ready_time: datetime):
+        self.__ready_time = ready_time
+
     def set_status_on_truck(self, truck_number: int):
         self.__status = 'truck{}'.format(truck_number)
 
@@ -44,8 +48,15 @@ class Parcel:
         self.__status = 'delivered at {}'.format(ts.strftime('%H:%M'))
         # needs timestamp todo
 
-    def setStatusNotReady(self):
+    def set_status_late(self, ts: datetime):
+        self.__status = 'PACKAGE LATE: []'.format(ts)
+
+    # fixme, I don't think this is ever used
+    def set_status_not_ready(self):
         self.__status = 'not ready'
+
+    def set_status_waiting(self):
+        self.__status = 'waiting'
 
     def get_status(self):
         return self.__status
@@ -73,3 +84,9 @@ class Parcel:
 
     def get_priority(self):
         return self.__delivery_priority
+
+    def set_deadline(self, deadline: datetime):
+        self.__d_deadline = deadline
+
+    def get_deadline(self):
+        return self.__d_deadline

@@ -101,7 +101,7 @@ def test_trucks():
     while len(hashy.get_ready_parcels()) > 0:
         tr1.run_route(hashy)
         tr2.run_route(hashy)
-
+    hashy.print_all_parcels()
 
 def main():
     test_trucks()
