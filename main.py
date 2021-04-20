@@ -7,6 +7,7 @@ from data import load_parcels
 from data import get_address_index
 from datetime import datetime
 from data import get_distance_between_addresses
+from decimal import *
 
 class TemporaryClass:
     def __init__(self):
@@ -90,13 +91,20 @@ def test_trucks():
     # set up trucks:
     tr1 = Truck.Truck(1, hashy)
     tr2 = Truck.Truck(2, hashy)
+    tr1_total_distance = 0
+    tr2_total_distance = 0
     # for debugging purposes, I'm limiting this to 10 cycles (20 total truck runs).  This can be removed later fixme
     i = 9
     while len(hashy.get_ready_parcels()) > 0 and (i > 0):
-        tr2.run_route(hashy)
-        tr1.run_route(hashy)
+        tr2_total_distance = tr2.run_route(hashy)
+        tr1_total_distance = tr1.run_route(hashy)
         i = i - 1
     hashy.print_all_parcels()
+    total_distance = tr1_total_distance + tr2_total_distance
+    print("\n*************** Final report *****************")
+    print("Truck 1 mileage = {:.3f}, truck 2 mileage = {:.3f} total = {:.3f}".format(tr1_total_distance,
+                                                                         tr2_total_distance,
+                                                                         total_distance))
 
 def main():
     test_trucks()

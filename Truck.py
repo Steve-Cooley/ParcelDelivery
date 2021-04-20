@@ -82,6 +82,7 @@ class Truck:
 
     def run_route(self, hashy: MyHashmapClass):
         print("************ Start of run_route ***********")
+        print("Time is {}".format(self.time.strftime('%H:%M')))
         #hashy.print_all_parcels()
         # Determine if the route should run, are there any packages in hashy?
         num_ready_parcels = len(hashy.get_ready_parcels())
@@ -95,12 +96,12 @@ class Truck:
                 pri_0_parcels.append(par)
         while len(pri_0_parcels) > 0:
             par = self.get_nearest_package(pri_0_parcels)
-            print("Nearest High Priority parcel: ", par)
+            #print("Nearest High Priority parcel: ", par)
             delivery_address = par.get_d_address()
             self.go_to_next_location(delivery_address)
             self.deliver_parcel(par)
             pri_0_parcels.remove(par)
-        print("#########HIGH PRIORITY PARCELS: ", pri_0_parcels)
+        #print("#########HIGH PRIORITY PARCELS: ", pri_0_parcels)
         # deliver priority 1 parcels
         pri_1_parcels = []
         for par in self.loaded_parcels:
@@ -128,6 +129,7 @@ class Truck:
         self.return_to_hub()
         print("Miles traveled for this trip: {}".format(self.miles_traveled))
         print("************* end of run_route ************\n")
+        return self.miles_traveled
 
     def new_arrivals_round1(self):
         par6 = self.hashy.search('06')

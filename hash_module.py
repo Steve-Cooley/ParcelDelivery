@@ -1,15 +1,19 @@
 from Parcel import Parcel
+import sys
 
 class MyHashmapClass:
 
     # This constructor determines how large the empty hash table will be.  I want to reduce collisions for
-    # performance reasons, so I multiply the table size by 10.  This will grow with the business as long as
-    # the user of this program enters in the number of packages to be delivered.
-    def __init__(self, number_of_packages: int = 10):
+    # performance reasons, so I multiply the table size by 100.  This will grow with the business as long as
+    # the user of this program enters in the number of packages to be delivered. Also, collisions seem to
+    # make the output of print_all_parcels more confusing. This is probably not very memory efficient,
+    # but the list itself (not including the objects) is only a few hundred kilobytes. I think each parcel takes
+    # 28k.
+    def __init__(self, number_of_packages: int = 40):
         self.inventory = []
         # This list of keys (IDs) is part of an attempt to make iterating through the hashmap easier
         self.key_list = []
-        self.inventory_capacity = number_of_packages * 10
+        self.inventory_capacity = number_of_packages * 100
         self.truck_turn = 1  # selects which truck is active.  Not sure if this will be used fixme
         # This makes the algorithm self adjusting, responding to the number of packages inserted
         for i in range(self.inventory_capacity):
@@ -45,10 +49,11 @@ class MyHashmapClass:
 
     ## remove method  fixme delete?
 
-    # this method should mark parcels ready or not ready depending on a number of criteria based on criteria
+    # this method should mark parcels ready or not ready depending on a number of criteria:
     # What parcels share addresses?
     # what parcels are chained together in some other way
     # what parcels that share an address or are otherwise chained  together that have a high priority?
+    # how close are parcels to each other?
     # does nothing so far
     def optimize_parcels(self):
         pass
@@ -71,6 +76,8 @@ class MyHashmapClass:
 
     def print_all_parcels(self):
         print("*********printing all loaded_parcels**************")
+        key01 = hash('01') % self.inventory_capacity
+        print("parcel 01 takes {}kb of memory".format(sys.getsizeof(key01)))
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity
             for par in self.inventory[bucket]:
