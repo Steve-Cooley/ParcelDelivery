@@ -79,6 +79,9 @@ class Parcel:
     def get_d_address(self):
         return self.__d_address
 
+    def set_d_address(self, address: str):
+        self.__d_address = address
+
     def set_priority(self, priority: int):
         self.__delivery_priority = priority
 

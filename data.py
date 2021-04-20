@@ -184,7 +184,8 @@ def load_parcels(hashmap):
                     '22 00',
                     'Salt Lake City',
                     '84117',
-                    '25')
+                    '25',
+                    'delayed until 0905')
     pack27 = Parcel('27',
                     '1060 Dalton Ave S',
                     '22 00',

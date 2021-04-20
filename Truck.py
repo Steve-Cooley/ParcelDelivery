@@ -88,6 +88,30 @@ class Truck:
         print("There are {} parcels ready to go".format(num_ready_parcels))
         self.load_truck(hashy)
         print("loaded {} parcels.".format(len(self.loaded_parcels)))
+        # deliver priority 0 parcels
+        pri_0_parcels = []
+        for par in self.loaded_parcels:
+            if par.get_priority() == 0:
+                pri_0_parcels.append(par)
+        while len(pri_0_parcels) > 0:
+            par = self.get_nearest_package(pri_0_parcels)
+            print("Nearest High Priority parcel: ", par)
+            delivery_address = par.get_d_address()
+            self.go_to_next_location(delivery_address)
+            self.deliver_parcel(par)
+            pri_0_parcels.remove(par)
+        print("#########HIGH PRIORITY PARCELS: ", pri_0_parcels)
+        # deliver priority 1 parcels
+        pri_1_parcels = []
+        for par in self.loaded_parcels:
+            if par.get_priority() == 1:
+                pri_1_parcels.append(par)
+        while len(pri_1_parcels) > 0:
+            par = self.get_nearest_package(pri_1_parcels)
+            delivery_address = par.get_d_address()
+            self.go_to_next_location(delivery_address)
+            self.deliver_parcel(par)
+            pri_1_parcels.remove(par)
         # The main loop that runs until all loaded parcels have been delivered or returned to hub
         while len(self.loaded_parcels) > 0:
             print("there are {} loaded packages".format(len(self.loaded_parcels)))
@@ -123,6 +147,7 @@ class Truck:
         par9 = self.hashy.search('09')
         if (self.time > datetime.strptime("10 20", "%H %M")) and (par9.get_status() == 'delayed until 1020'):
             par9.set_status_waiting()
+            par9.set_d_address('410 S State St')
             par9.set_required_truck(self.truck_number)
             self.return_to_hub()
 
