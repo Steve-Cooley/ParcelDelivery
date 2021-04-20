@@ -93,8 +93,8 @@ def test_trucks():
     # for debugging purposes, I'm limiting this to 10 cycles (20 total truck runs).  This can be removed later fixme
     i = 9
     while len(hashy.get_ready_parcels()) > 0 and (i > 0):
-        tr1.run_route(hashy)
         tr2.run_route(hashy)
+        tr1.run_route(hashy)
         i = i - 1
     hashy.print_all_parcels()
 

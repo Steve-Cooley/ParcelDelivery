@@ -137,6 +137,8 @@ class Truck:
             par6.set_required_truck(self.truck_number)
             self.hashy.search('25').set_status_waiting()
             self.hashy.search('25').set_required_truck(self.truck_number)
+            self.hashy.search('26').set_status_waiting()
+            self.hashy.search('26').set_required_truck(self.truck_number)
             self.hashy.search('28').set_status_waiting()
             self.hashy.search('28').set_required_truck(self.truck_number)
             self.hashy.search('32').set_status_waiting()
