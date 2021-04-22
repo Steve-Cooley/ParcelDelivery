@@ -3,8 +3,9 @@ from datetime import datetime
 from Parcel import Parcel
 from hash_module import MyHashmapClass
 
-# O(1) constant run time.
-#
+# Time complexity: O(1) constant run time. If input varied, then it would be O(n)
+# Space complexity:
+# This just loads parcels into the hashmap.
 def load_parcels(hashmap):
     #print('loading data') fixme
     #print(hashmap) fixme
@@ -324,7 +325,9 @@ def load_parcels(hashmap):
     print(hashmap)
 
 
-# all verified
+# Time complexity: 0(1) constant run time.
+# space complexity:
+# Stores all distances in memory. Helps with address distance lookup.
 distances = [
     [
         'HUB',
@@ -549,10 +552,10 @@ distances = [
 ]
 
 # O(n)
+# Space complexity:
+# Takes an address string and returns the index of that string.  Useful for finding
+# distances between addresses.  Only used internally in this module.
 def get_address_index(address: str):
-    """Takes an address string and returns the index value of that string.
-    Will be an internal helper function, no need to import to other modules
-    at least once testing if finished.  fixme delete excess comment"""
     #print("in get_address_index: {}".format(address))
     for i in range(len(distances)):
         #print(distances[i][0])
