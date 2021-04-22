@@ -18,6 +18,7 @@ class Truck:
         self.TRUCK_SPEED = 0.3
         self.current_location = 'HUB'
         self.hashy = hashy
+        self.stop_all = False
 
 
     def load_truck(self, hm: Parcel):
@@ -80,56 +81,73 @@ class Truck:
         self.open_slots = self.open_slots + 1
         print("there are {} parcels on the truck". format(16 - self.open_slots))
 
-    def run_route(self, hashy: MyHashmapClass):
-        print("************ Start of run_route ***********")
-        print("Time is {}".format(self.time.strftime('%H:%M')))
-        #hashy.print_all_parcels()
-        # Determine if the route should run, are there any packages in hashy?
-        num_ready_parcels = len(hashy.get_ready_parcels())
-        print("There are {} parcels ready to go".format(num_ready_parcels))
-        self.load_truck(hashy)
-        print("loaded {} parcels.".format(len(self.loaded_parcels)))
-        # deliver priority 0 parcels
-        pri_0_parcels = []
-        for par in self.loaded_parcels:
-            if par.get_priority() == 0:
-                pri_0_parcels.append(par)
-        while len(pri_0_parcels) > 0:
-            par = self.get_nearest_package(pri_0_parcels)
-            #print("Nearest High Priority parcel: ", par)
-            delivery_address = par.get_d_address()
-            self.go_to_next_location(delivery_address)
-            self.deliver_parcel(par)
-            pri_0_parcels.remove(par)
-        #print("#########HIGH PRIORITY PARCELS: ", pri_0_parcels)
-        # deliver priority 1 parcels
-        pri_1_parcels = []
-        for par in self.loaded_parcels:
-            if par.get_priority() == 1:
-                pri_1_parcels.append(par)
-        while len(pri_1_parcels) > 0:
-            par = self.get_nearest_package(pri_1_parcels)
-            delivery_address = par.get_d_address()
-            self.go_to_next_location(delivery_address)
-            self.deliver_parcel(par)
-            pri_1_parcels.remove(par)
-        # The main loop that runs until all loaded parcels have been delivered or returned to hub
-        while len(self.loaded_parcels) > 0:
-            print("there are {} loaded packages".format(len(self.loaded_parcels)))
-            par = self.get_nearest_package(self.loaded_parcels)
-            print("nearest package: {}".format(par))
-            delivery_address = par.get_d_address()
-            self.go_to_next_location(delivery_address)
-            self.deliver_parcel(par)
-            self.new_arrivals_round1()
-            self.new_arrivals_round2()
-        length_of_parcels = len(self.loaded_parcels)
-        print("Length of self.loaded_parcels after loop: {}".format(length_of_parcels))
-        # return to HUB
-        self.return_to_hub()
-        print("Miles traveled for this trip: {}".format(self.miles_traveled))
-        print("************* end of run_route ************\n")
-        return self.miles_traveled
+    def run_route(self, hashy: MyHashmapClass, stop_time: datetime = datetime.strptime("22:00", "%H:%M")):
+        # This loop ensures that the route is only run if time isn't up (time is set by user)
+        if self.stop_all == True or self.time >= stop_time:
+            return self.miles_traveled
+        else:
+            print("************ Start of run_route ***********")
+            print("Time is {}".format(self.time.strftime('%H:%M')))
+            #hashy.print_all_parcels()
+            # Determine if the route should run, are there any packages in hashy?
+            num_ready_parcels = len(hashy.get_ready_parcels())
+            print("There are {} parcels ready to go".format(num_ready_parcels))
+            self.load_truck(hashy)
+            print("loaded {} parcels.".format(len(self.loaded_parcels)))
+            # deliver priority 0 parcels
+            pri_0_parcels = []
+            for par in self.loaded_parcels:
+                if par.get_priority() == 0:
+                    pri_0_parcels.append(par)
+            while len(pri_0_parcels) > 0:
+                par = self.get_nearest_package(pri_0_parcels)
+                #print("Nearest High Priority parcel: ", par)
+                delivery_address = par.get_d_address()
+                self.go_to_next_location(delivery_address)
+                self.deliver_parcel(par)
+                pri_0_parcels.remove(par)
+                # enable stop time
+                if self.time >= stop_time:
+                    print("\n **********Stopping early **********\n")
+                    self.stop_all = True
+                    return self.miles_traveled
+            #print("#########HIGH PRIORITY PARCELS: ", pri_0_parcels)
+            # deliver priority 1 parcels
+            pri_1_parcels = []
+            for par in self.loaded_parcels:
+                if par.get_priority() == 1:
+                    pri_1_parcels.append(par)
+            while len(pri_1_parcels) > 0:
+                par = self.get_nearest_package(pri_1_parcels)
+                delivery_address = par.get_d_address()
+                self.go_to_next_location(delivery_address)
+                self.deliver_parcel(par)
+                pri_1_parcels.remove(par)
+                if self.time >= stop_time:
+                    print("\n **********Stopping early **********\n")
+                    self.stop_all = True
+                    return self.miles_traveled
+            # The main loop that runs until all loaded parcels have been delivered or returned to hub
+            while len(self.loaded_parcels) > 0:
+                print("there are {} loaded packages".format(len(self.loaded_parcels)))
+                par = self.get_nearest_package(self.loaded_parcels)
+                print("nearest package: {}".format(par))
+                delivery_address = par.get_d_address()
+                self.go_to_next_location(delivery_address)
+                self.deliver_parcel(par)
+                self.new_arrivals_round1()
+                self.new_arrivals_round2()
+                if self.time >= stop_time:
+                    print("\n **********Stopping early **********\n")
+                    self.stop_all = True
+                    return self.miles_traveled
+            length_of_parcels = len(self.loaded_parcels)
+            print("Length of self.loaded_parcels after loop: {}".format(length_of_parcels))
+            # return to HUB
+            self.return_to_hub()
+            print("Miles traveled for this trip: {}".format(self.miles_traveled))
+            print("************* end of run_route ************\n")
+            return self.miles_traveled
 
     def new_arrivals_round1(self):
         par6 = self.hashy.search('06')
@@ -212,3 +230,4 @@ class Truck:
             address = par.get_d_address()
             if address == closest_address:
                 return par
+

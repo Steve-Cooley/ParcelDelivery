@@ -106,8 +106,39 @@ def test_trucks():
                                                                          tr2_total_distance,
                                                                          total_distance))
 
+
+
+def run_with_termination_time():
+    short_hashy = MyHashmapClass(40)
+    load_parcels(short_hashy)
+    #short_hashy.print_all_parcels()
+    print()
+    print("**************** Running with termination time ******************")
+    # Allow user to enter a stop time so they can check on the status of all packages at that time.
+    utime = input("Enter a time: ")
+    utime = datetime.strptime(utime, "%H:%M")
+    print(utime)
+    tr1 = Truck.Truck(1, short_hashy)
+    tr2 = Truck.Truck(2, short_hashy)
+    tr1_total_distance = 0
+    tr2_total_distance = 0
+    # for debugging purposes, I'm limiting this to 10 cycles (20 total truck runs).  This can be removed later fixme
+    i = 9
+    while len(short_hashy.get_ready_parcels()) > 0 and (i > 0):
+        tr2_total_distance = tr2.run_route(short_hashy, utime)
+        tr1_total_distance = tr1.run_route(short_hashy, utime)
+        i = i - 1
+    short_hashy.print_all_parcels()
+    total_distance = tr1_total_distance + tr2_total_distance
+    print("\n*************** Final report *****************")
+    print("Truck 1 mileage = {:.3f}, truck 2 mileage = {:.3f} total = {:.3f}".format(tr1_total_distance,
+                                                                         tr2_total_distance,
+                                                                         total_distance))
+
+
 def main():
-    test_trucks()
+    #test_trucks()
+    run_with_termination_time()
     #test()
 
 

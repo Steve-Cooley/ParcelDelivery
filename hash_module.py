@@ -77,7 +77,7 @@ class MyHashmapClass:
     def print_all_parcels(self):
         print("*********printing all loaded_parcels**************")
         key01 = hash('01') % self.inventory_capacity
-        print("parcel 01 takes {}kb of memory".format(sys.getsizeof(key01)))
+        #print("parcel 01 takes {}kb of memory".format(sys.getsizeof(key01)))
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity
             for par in self.inventory[bucket]:

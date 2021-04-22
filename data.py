@@ -3,10 +3,11 @@ from datetime import datetime
 from Parcel import Parcel
 from hash_module import MyHashmapClass
 
-
+# O(1) constant run time.
+#
 def load_parcels(hashmap):
-    print('loading data')
-    print(hashmap)
+    #print('loading data') fixme
+    #print(hashmap) fixme
     pack01 = Parcel('01',
                     '195 W Oakland Ave',
                     '22 00',
