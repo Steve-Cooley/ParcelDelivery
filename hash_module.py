@@ -13,7 +13,7 @@ class MyHashmapClass:
         # This list of keys (IDs) is part of an attempt to make iterating through the hashmap easier
         self.key_list = []
         self.inventory_capacity = number_of_packages * 100
-        self.truck_turn = 1  # selects which truck is active.  Not sure if this will be used fixme
+        self.truck_turn = 1  # selects which truck is active.  Not sure if this will be used
         # This makes the algorithm self adjusting, responding to the number of packages inserted
         for i in range(self.inventory_capacity):
             self.inventory.append([])
