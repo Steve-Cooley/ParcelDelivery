@@ -1,163 +1,58 @@
 # This project by:  Steven Cooley   __id# 001009672
-import Truck
-import data
-from Parcel import Parcel
-from hash_module import MyHashmapClass
-from data import load_parcels
-from data import get_address_index
 from datetime import datetime
-from data import get_distance_between_addresses
-from decimal import *
 
-class TemporaryClass:
-    def __init__(self):
-        self.__myString = "Hello, World!"
-    def __str__(self):
-        return self.__myString
+import truck
+from data import load_parcels
+from hash_module import MyHashmapClass
 
 
-def test():
-    # tc = TemporaryClass()
-    #
-    # print("testing")
-    #
-    # print(tc)
-    #
-    # pack00 = Parcel('1',
-    #                '123 address',
-    #                "22 00",
-    #                "city1",
-    #                'zip1',
-    #                '1.3#',
-    #                )
-    # print(pack00)
-    # print('pack hash: ' + str(hash(pack00)))
-    # pack00.set_status_on_truck(1)
-    # print('status has been set to en route')
-    # print(pack00)
-    # print('pack hash: ' + str(hash(pack00)))
-    # print('Hash of string matching package number: ' + str(hash('1')))
-    # pack00.id = '2'
-    # print('Hash of package after changing the parcel number: ' + str(hash(pack00)))
-    #
-    # print('***********')
-    # print('Now testing hashmap')
-    hashy = MyHashmapClass(40)
-
-    #print(hashy)
-
-    print('************ now testing loader ***************')
-    load_parcels(hashy)
-    print(hashy)
-
-    pack04 =  hashy.search('09')
-    print(pack04)
-
-    ##########################################
-    # distance stuff
-
-    var = get_address_index('195 W Oakland Ave')
-    print(var)
-
-    distance = get_distance_between_addresses('195 W Oakland Ave', 'HUB') # good
-    print(distance)
-    distance = get_distance_between_addresses('HUB', '195 W Oakland Ave') #Bad!!! fixed!
-    print(distance)
-    distance = get_distance_between_addresses('300 State St', '1488 4800 S') # good
-    print(distance)
-    distance = get_distance_between_addresses('HUB', 'HUB') # works fixme delete
-    print(distance)
-    distance = get_distance_between_addresses('2010 W 500 S', '3060 Lester St')
-    print(distance)
-    distance = get_distance_between_addresses('3060 Lester St', '2010 W 500 S')
-    print(distance)
-    #
-    print('********** Testing truck!')
-    #hashy.next_available(0)
-    #parcel_list = hashy.get_ready_parcels()
-    #print(parcel_list)
-    tr = Truck.Truck(1)
-    print(tr)
-    #tr.load_truck(hashy)
-    tr.run_route(hashy)
-    #hashy.print_all_parcels()
-
-
-def test_trucks():
-    # set up hashmap
-    hashy = MyHashmapClass(40)
-    load_parcels(hashy)
-
-    # set up trucks:
-    tr1 = Truck.Truck(1, hashy)
-    tr2 = Truck.Truck(2, hashy)
-    tr1_total_distance = 0
-    tr2_total_distance = 0
-    # for debugging purposes, I'm limiting this to 10 cycles (20 total truck runs).  This can be removed later fixme
-    i = 9
-    while len(hashy.get_ready_parcels()) > 0 and (i > 0):
-        tr2_total_distance = tr2.run_route(hashy)
-        tr1_total_distance = tr1.run_route(hashy)
-        i = i - 1
-    hashy.print_all_parcels()
-    total_distance = tr1_total_distance + tr2_total_distance
-    print("\n*************** Final report *****************")
-    print("Truck 1 mileage = {:.3f}, truck 2 mileage = {:.3f} total = {:.3f}".format(tr1_total_distance,
-                                                                         tr2_total_distance,
-                                                                         total_distance))
-
-
-
-def run_with_termination_time():
+# time: O(n^2) space: O(n^2) This function calls on other methods and functions in other modules,
+# and if you follow the logic through each method/function, I expect that you'd find O(n^[5,9]).
+# This is still polynomial time.
+# Runs trucks via a while loop limited to ten trips per truck. This limitation was useful early on.
+# Trucks are alternated to simulate simultaneity between trucks.  UI loop implemented to make
+# repeated runs easier.
+def main():
     short_hashy = MyHashmapClass(40)
     load_parcels(short_hashy)
-    #short_hashy.print_all_parcels()
     print()
     print("**************** Running with termination time ******************")
     # Allow user to enter a stop time so they can check on the status of all packages at that time.
-    utime = input("Enter a time: ")
-    utime = datetime.strptime(utime, "%H:%M")
-    print(utime)
-    tr1 = Truck.Truck(1, short_hashy)
-    tr2 = Truck.Truck(2, short_hashy)
-    tr1_total_distance = 0
-    tr2_total_distance = 0
-    # for debugging purposes, I'm limiting this to 10 cycles (20 total truck runs).  This can be removed later fixme
-    i = 9
-    while len(short_hashy.get_ready_parcels()) > 0 and (i > 0):
-        tr2_total_distance = tr2.run_route(short_hashy, utime)
-        tr1_total_distance = tr1.run_route(short_hashy, utime)
-        i = i - 1
-    short_hashy.print_all_parcels()
-    total_distance = tr1_total_distance + tr2_total_distance
-    print("\n*************** Final report *****************")
-    print("Truck 1 mileage = {:.3f}, truck 2 mileage = {:.3f} total = {:.3f}".format(tr1_total_distance,
-                                                                         tr2_total_distance,
-                                                                         total_distance))
+    print("Enter a time below. Once you enter a time, the program will run once, and show the\n"
+          "status of all packages (parcels) at that time. Packages that have been\n"
+          "delivered on time will have a timestamp. Likewise if any packages are late,\n"
+          "they'll have a message stating that they are late, and a timestamp (all \n"
+          "packages are always delivered on time though for this version of this\n"
+          "program). If stopped early (by the time you enter), some packages will say that they\n"
+          "'waiting', loaded on a truck, or delayed for some reason.The program will run on\n"
+          "repeat until you press 'n' when prompted.\n")
+    answer = 'y'
+    # loop intended to make running the program with different inputs easier.
+    while not answer == 'n':
+        short_hashy = MyHashmapClass(40)
+        load_parcels(short_hashy)
+        utime = input("Enter a time in military time in the format HH:MM\n_")
+        utime = datetime.strptime(utime, "%H:%M")
+        tr1 = truck.Truck(1, short_hashy)
+        tr2 = truck.Truck(2, short_hashy)
+        tr1_total_distance = 0
+        tr2_total_distance = 0
+        # loop alternates truck runs. Limiting number of runs was useful early in the dev process.
+        # It turns out that running and loading truck 2 before truck 1 gave a shorter path that
+        # met all requirements.
+        i = 9
+        while len(short_hashy.get_ready_parcels()) > 0 and (i > 0):
+            tr2_total_distance = tr2.run_route(short_hashy, utime)
+            tr1_total_distance = tr1.run_route(short_hashy, utime)
+            i = i - 1
+        short_hashy.print_all_parcels()
+        total_distance = tr1_total_distance + tr2_total_distance
+        print("\n*************** Final report *****************")
+        print("Truck 1 mileage = {:.3f}, truck 2 mileage = {:.3f} total = {:.3f}".format(tr1_total_distance,
+                                                                                         tr2_total_distance,
+                                                                                         total_distance))
+        answer = input("Enter 'n' to quit.  This program will keep re-running until you enter 'n': ")
 
-
-def main():
-    #test_trucks()
-    run_with_termination_time()
-    #test()
 
 
 main()
-
-
-
-'''
-dateString = "12 14 1978 0 0 0"
-print(dateString)
-date_object = datetime.strptime(dateString, '%m %d %Y %H %M %S')
-
-print (date_object)
-
-
-tbl = []
-print (tbl)
-for i in range(10):
-    tbl.append([])
-print(tbl)
-
-'''

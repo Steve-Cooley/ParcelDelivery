@@ -1,14 +1,13 @@
 from Parcel import Parcel
-import sys
 
+
+# This self-adjusting data structure holds all of the parcel objects. The most expensive
+# method is O(n^2) (time complexity). This data structure makes a lot of empty lists
+# in order to speed up access time at the expense of some space complexity.
 class MyHashmapClass:
-
-    # This constructor determines how large the empty hash table will be.  I want to reduce collisions for
-    # performance reasons, so I multiply the table size by 100.  This will grow with the business as long as
-    # the user of this program enters in the number of packages to be delivered. Also, collisions seem to
-    # make the output of print_all_parcels more confusing. This is probably not very memory efficient,
-    # but the list itself (not including the objects) is only a few hundred kilobytes. I think each parcel takes
-    # 28k.
+    # Time complexity: O(n)
+    # Space complexity: O(n)
+    # Constructor creates the hashmap.
     def __init__(self, number_of_packages: int = 40):
         self.inventory = []
         # This list of keys (IDs) is part of an attempt to make iterating through the hashmap easier
@@ -19,69 +18,49 @@ class MyHashmapClass:
         for i in range(self.inventory_capacity):
             self.inventory.append([])
 
-    # Changes the print output to something more useful than the v-memory address of the hashmap.
-    # It just prints the list of "inventory"
-    # For now, this doesn't use the print __str__ method of the internal parcel objects, might change later fixme
+    # time: O(1)
+    # space: O(1)
+    # Returns string of object
     def __str__(self):
         print('in hashtable __str__ method')
         return self.inventory.__str__()
 
-    ## insert method
+    # space: O(1)
+    # time: O(1)
+    # insert method inserts parcels into hashtable using hash function.
     def insert(self, parcel: Parcel):
-        #print("in insert method") #fixme remove
         # get ID, and hash it to determine bucket
         id = parcel.get_id()
-        bucket  = hash(id) % self.inventory_capacity
-        #print('bucket is: ' + str(bucket))
+        bucket = hash(id) % self.inventory_capacity
         self.inventory[bucket].append(parcel)
         self.key_list.append(id)
 
-    ## search method
-    # Complexity: Worst case is O(n), but in reality it's more like O(1) because hash collisions should be rare.
-    # So, runtime will be something like O(n / (inventory_capacity?)) fixme
+    # time: O(n) space: O(n)
+    # search method takes an id number as an argument and uses the hash function to return
+    # a parcel object.
     def search(self, id: str):
-        #print('in hm search method') # fixme delete
         bucket_int = hash(id) % self.inventory_capacity
         actual_bucket = self.inventory[bucket_int]
-        #print("********* Length of bucket: " + str(len(actual_bucket)))
         for par in actual_bucket:
             return par
 
-    ## remove method  fixme delete?
-
-    # this method should mark parcels ready or not ready depending on a number of criteria:
-    # What parcels share addresses?
-    # what parcels are chained together in some other way
-    # what parcels that share an address or are otherwise chained  together that have a high priority?
-    # how close are parcels to each other?
-    # does nothing so far
-    def optimize_parcels(self):
-        pass
-
+    # time: O(n^2) space: O(n^2)
     # get list of available loaded_parcels.
     def get_ready_parcels(self):
-        self.optimize_parcels()  #does nothing, either remove or do something with it todo
         ready_parcels = []
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity
-            #print(bucket) #prints a list of active bucket numbers
-            #print(self.inventory[bucket]) # this prints a list of the contents of each active bucket, which are lists
             for par in self.inventory[bucket]:
-                #print(par)
-                #print (par.get_status())
-                if (par.get_status() == 'waiting') and par.get_id() == key :
+                if (par.get_status() == 'waiting') and par.get_id() == key:
                     ready_parcels.append(par)
-                    #print(par)
+                    # print(par)
         return ready_parcels
 
+    # space: O(n^2) time: O(n^2)
     def print_all_parcels(self):
         print("*********printing all loaded_parcels**************")
         key01 = hash('01') % self.inventory_capacity
-        #print("parcel 01 takes {}kb of memory".format(sys.getsizeof(key01)))
         for key in self.key_list:
             bucket = hash(key) % self.inventory_capacity
             for par in self.inventory[bucket]:
                 print(par)
-
-
-

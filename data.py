@@ -1,14 +1,13 @@
 from datetime import datetime
 
 from Parcel import Parcel
-from hash_module import MyHashmapClass
 
-# Time complexity: O(1) constant run time. If input varied, then it would be O(n)
-# Space complexity:
+# This isn't a class, just a module with some functions.
+
+# Time complexity: O(1) constant run time.
+# Space complexity: O(1)
 # This just loads parcels into the hashmap.
 def load_parcels(hashmap):
-    #print('loading data') fixme
-    #print(hashmap) fixme
     pack01 = Parcel('01',
                     '195 W Oakland Ave',
                     '22 00',
@@ -322,11 +321,9 @@ def load_parcels(hashmap):
     hashmap.insert(pack38)
     hashmap.insert(pack39)
     hashmap.insert(pack40)
-    print(hashmap)
-
 
 # Time complexity: 0(1) constant run time.
-# space complexity:
+# space complexity: O(1)
 # Stores all distances in memory. Helps with address distance lookup.
 distances = [
     [
@@ -551,36 +548,31 @@ distances = [
     ]
 ]
 
-# O(n)
-# Space complexity:
+# Time complexity O(n)
+# Space complexity O(n)
 # Takes an address string and returns the index of that string.  Useful for finding
 # distances between addresses.  Only used internally in this module.
 def get_address_index(address: str):
-    #print("in get_address_index: {}".format(address))
     for i in range(len(distances)):
         #print(distances[i][0])
         if distances[i][0] == address:
             #print("index is: {}".format(i))
             return i
 
-# O(1)
+# time complexity O(1)
+# space complexity: O(n)
+# Takes two address strings and returns the distance between those addresses.
+# Useful in nearest neighbor algorithm.
 def get_distance_between_addresses(current_location: str, next_location: str):
-    # Takes two address strings and returns the distance between those addresses
-    #print('\n**** Starting get distance function')
-    #print("address 1: {}  address 2: {}".format(current_location, next_location))
     row = get_address_index(current_location)
     col = get_address_index(next_location)
-    #print("indexes are: {} and {}".format(row, col))
     # Because of the way the distance data spreadsheet (and my own 2d array)
     # are filled out, it is necessary for the first index to be >= the second index.
     # This 'if' statement fixes that.
     if row < col:
-        #print("The current index has a value lower than the next index, reversing.")
         temp = row
         row = col
         col = temp
-    #print("indexes are: {} and {}".format(row, col))
-    #print('***** finishing get distance function\n')
     # Need to offset column number by one to skip address string. Adding 1 to column fixes this
     return distances[row][col + 1]
 
