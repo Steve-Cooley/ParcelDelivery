@@ -47,7 +47,7 @@ class Parcel:
     # time: O(1) space: O(1)
     # One of a number of very simple methods that get and set attributes in parcel objects.
     def set_status_on_truck(self, truck_number: int):
-        self.__status = 'truck{}'.format(truck_number)
+        self.__status = 'En_route on truck{}'.format(truck_number)
 
     # time: O(1) space: O(1)
     # One of a number of very simple methods that get and set attributes in parcel objects.

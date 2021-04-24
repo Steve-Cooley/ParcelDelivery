@@ -24,8 +24,9 @@ def main():
           "they'll have a message stating that they are late, and a timestamp (all \n"
           "packages are always delivered on time though for this version of this\n"
           "program). If stopped early (by the time you enter), some packages will say that they\n"
-          "'waiting', loaded on a truck, or delayed for some reason.The program will run on\n"
-          "repeat until you press 'n' when prompted.\n")
+          "are 'waiting', loaded on a truck, or delayed for some reason. Please note that 'waiting'\n"
+          "means 'waiting at the hub'. \n\n"
+          "The program will run on repeat until you press 'n' when prompted.\n")
     answer = 'y'
     # loop intended to make running the program with different inputs easier.
     while not answer == 'n':
@@ -51,7 +52,8 @@ def main():
         print("Truck 1 mileage = {:.3f}, truck 2 mileage = {:.3f} total = {:.3f}".format(tr1_total_distance,
                                                                                          tr2_total_distance,
                                                                                          total_distance))
-        answer = input("Enter 'n' to quit.  This program will keep re-running until you enter 'n': ")
+        answer = input("Enter 'n' to quit. Enter 'y' or anything else to continue This program will keep re-running "
+                       "until you enter 'n': ")
 
 
 

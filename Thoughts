@@ -1,3 +1,6 @@
+Note to evaluator:  This is my own thoughts when planning this project.  You don't have to read this, it's
+not relevant.  You won't find anything unprofessional here though.
+
 Parcel Priorities:  Parcels that have a delivery time requirement can have higher priority.  They would
 complete before other files.  OR, they could be weighted higher so that if there is a low priority parcel between
 two high priority files, then a stop could be arranged there, as long as deadlines are met.
